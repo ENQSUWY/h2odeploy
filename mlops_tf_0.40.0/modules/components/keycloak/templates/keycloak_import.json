@@ -1,0 +1,169 @@
+{
+  "accessTokenLifespan": 36000,
+  "accessTokenLifespanForImplicitFlow": 900,
+  "clientScopes": [
+    {
+      "name": "ai.h2o.storage",
+      "protocol": "openid-connect"
+    },
+    {
+      "name": "ai.h2o.deploy",
+      "protocol": "openid-connect"
+    },
+    {
+      "name": "ai.h2o.driverless",
+      "protocol": "openid-connect"
+    },
+    {
+      "description": "OpenID Connect built-in scope: email",
+      "name": "email",
+      "protocol": "openid-connect"
+    },
+    {
+      "description": "OpenID Connect built-in scope: profile",
+      "name": "profile",
+      "protocol": "openid-connect",
+      "protocolMappers": [
+        {
+          "config": {
+            "access.token.claim": "true",
+            "claim.name": "preferred_username",
+            "id.token.claim": "true",
+            "jsonType.label": "String",
+            "user.attribute": "username",
+            "userinfo.token.claim": "true"
+          },
+          "consentRequired": false,
+          "name": "username",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper"
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "access": {
+        "configure": true,
+        "manage": true,
+        "view": true
+      },
+      "adminUrl": "",
+      "clientAuthenticatorType": "client-secret",
+      "clientId": "${ui_client_id}",
+      "defaultClientScopes": ["profile", "email"],
+      "directAccessGrantsEnabled": false,
+      "enabled": true,
+      "frontchannelLogout": true,
+      "fullScopeAllowed": true,
+      "implicitFlowEnabled": false,
+      "optionalClientScopes": ["ai.h2o.storage", "ai.h2o.deploy"],
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "redirectUris": ${jsonencode(ui_redirect_urls)},
+      "rootUrl": "",
+      "secret": "${ui_client_secret}",
+      "standardFlowEnabled": true
+    },
+    {
+      "access": {
+        "configure": true,
+        "manage": true,
+        "view": true
+      },
+      "adminUrl": "",
+      "clientAuthenticatorType": "client-secret",
+      "clientId": "${driverless_client_id}",
+      "defaultClientScopes": ["profile", "email"],
+      "directAccessGrantsEnabled": false,
+      "enabled": true,
+      "frontchannelLogout": true,
+      "fullScopeAllowed": true,
+      "implicitFlowEnabled": false,
+      "optionalClientScopes": ["ai.h2o.storage"],
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "redirectUris": ["*"],
+      "rootUrl": "",
+      "secret": "${driverless_client_secret}",
+      "standardFlowEnabled": true
+    },
+    {
+      "access": {
+        "configure": true,
+        "manage": true,
+        "view": true
+      },
+      "adminUrl": "",
+      "clientAuthenticatorType": "client-secret",
+      "clientId": "${driverless_pkce_client_id}",
+      "defaultClientScopes": ["profile", "email"],
+      "directAccessGrantsEnabled": false,
+      "enabled": true,
+      "frontchannelLogout": true,
+      "fullScopeAllowed": true,
+      "implicitFlowEnabled": false,
+      "optionalClientScopes": ["ai.h2o.storage"],
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "redirectUris": ${jsonencode(driverless_redirect_urls)},
+      "rootUrl": "",
+      "secret": "",
+      "standardFlowEnabled": true
+    },
+    {
+      "access": {
+        "configure": true,
+        "manage": true,
+        "view": true
+      },
+      "adminUrl": "",
+      "clientAuthenticatorType": "client-secret",
+      "clientId": "${storage_client_id}",
+      "defaultClientScopes": ["profile", "email"],
+      "directAccessGrantsEnabled": false,
+      "enabled": true,
+      "frontchannelLogout": true,
+      "fullScopeAllowed": true,
+      "implicitFlowEnabled": false,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "redirectUris": [],
+      "rootUrl": "",
+      "secret": "${storage_client_secret}",
+      "standardFlowEnabled": true
+    },
+    {
+      "access": {
+        "configure": true,
+        "manage": true,
+        "view": true
+      },
+      "bearerOnly": false,
+      "clientAuthenticatorType": "client-secret",
+      "clientId": "${retrainer_client_id}",
+      "defaultClientScopes": ["ai.h2o.deploy", "ai.h2o.driverless", "profile", "ai.h2o.storage"],
+      "directAccessGrantsEnabled": false,
+      "enabled": true,
+      "frontchannelLogout": false,
+      "fullScopeAllowed": true,
+      "implicitFlowEnabled": false,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "secret": "${retrainer_client_secret}"
+    }
+  ],
+  "enabled": true,
+  "id": "${realm_name}",
+  "realm": "${realm_name}",
+  "scopeMappings": [
+    {
+      "clientScope": "offline_access",
+      "roles": ["offline_access"]
+    }
+  ],
+  "ssoSessionIdleTimeout": 68400,
+  "ssoSessionMaxLifespan": 115200
+}

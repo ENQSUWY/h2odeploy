@@ -1,0 +1,9 @@
+apiVersion: 1
+
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    isDefault: true
+    editable: false
+    access: proxy
+    url: ${influxdb_url}

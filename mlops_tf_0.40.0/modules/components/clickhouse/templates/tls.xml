@@ -1,0 +1,19 @@
+<yandex>
+  <https_port>${https_port}</https_port>
+  <tcp_port_secure>${tcp_port_secure}</tcp_port_secure>
+
+  <openSSL>
+    <server>
+
+      <loadDefaultCAFile>false</loadDefaultCAFile>
+      <caConfig>/pki/ca/certificate</caConfig>
+      <certificateFile>/pki/server/certificate</certificateFile>
+      <privateKeyFile>/pki/server/key</privateKeyFile>
+
+      <requireTLSv1_2>true</requireTLSv1_2>
+      <verificationMode>relaxed</verificationMode>
+
+    </server>
+  </openSSL>
+
+</yandex>

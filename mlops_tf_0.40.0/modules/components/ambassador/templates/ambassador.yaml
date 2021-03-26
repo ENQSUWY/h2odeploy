@@ -1,0 +1,8 @@
+apiVersion: getambassador.io/v1
+kind: Module
+name: ambassador
+config:
+  service_port: 1080
+  cors:
+    origins: ${ui_url}
+    headers: Authorization

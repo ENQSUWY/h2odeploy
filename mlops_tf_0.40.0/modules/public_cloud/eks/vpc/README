@@ -1,0 +1,1 @@
+Creates an AWS VPC and attached resources needed for the running of EKS cluster.
