@@ -13,7 +13,8 @@ variable "protocol" {
 
 variable "namespace" {
   description = "Kubernetes namespace where components will be installed. This is particularly important for DAI instances trying to reach storage, since the namespace must be specific in the hostname and mTLS certificate."
-  default     = "default"
+  # default     = "default"
+  default     = "mlops"
   type        = string
 
   validation {
