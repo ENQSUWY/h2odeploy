@@ -1,0 +1,38 @@
+[Server]
+Listen = "${listen_address}"
+ExternalAddress = "${external_address}"
+InternalAddress = "${internal_address}"
+AppRoot = "/h2oq/apps"
+WebRoot = "www"
+DataDir = "/h2oq/data"
+Secure = false
+CertFile = "/config/server.crt"
+KeyFile = "/config/server.key"
+LogLevel = "debug"
+LogFormat = "pretty"
+
+[Scheduler]
+TempDir = "/h2oq/tmp"
+MaxLogLines = 500
+LogLevel = "info"
+
+[Data]
+# URL format is http://username:password@host:port
+Address = "${clickhouse_address}"
+Database = "quantum"
+MaxResultRows = 50000
+
+[Maps]
+Provider = "Mapbox"
+
+[Maps.Mapbox]
+AccessToken = "${mapbox_access_token}"
+
+[AppStore]
+AllowSideloading = true
+
+[Setup]
+AdminUsername = "admin"
+AdminPassword = "${admin_password}"
+SystemUsername = "system"
+SystemPassword = "${system_password}"

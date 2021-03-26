@@ -1,0 +1,2 @@
+Creates application balancer, TLS certificates and DNS entries exposing that can
+be used access resources inside the cluster.

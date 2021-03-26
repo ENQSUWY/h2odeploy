@@ -1,0 +1,2 @@
+Creates application load balancer and associated security group and rules that
+allows forwarding of the port 443 traffic.

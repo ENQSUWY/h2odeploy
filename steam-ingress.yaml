@@ -1,0 +1,7 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  hosts:
+    - host: steam.40-71-236-86.h2o.sslip.io
+      paths: ["/"]
