@@ -18,8 +18,8 @@ variable "namespace" {
   type        = string
 
   validation {
-    condition     = contains(["default"], var.namespace)
-    error_message = "Variable namespace must be the value 'default' at the present time."
+    condition     = contains(["mlops"], var.namespace)
+    error_message = "Variable namespace must be the value 'mlops' at the present time."
   }
 }
 
