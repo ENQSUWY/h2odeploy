@@ -1,12 +1,14 @@
 resource "kubernetes_service_account" "studio" {
   metadata {
-    name = "studio"
+    namespace = var.namespace
+    name      = "studio"
   }
 }
 
 resource "kubernetes_role" "studio" {
   metadata {
-    name = "studio"
+    namespace = var.namespace
+    name      = "studio"
   }
 
   rule {
@@ -39,7 +41,8 @@ resource "kubernetes_role" "studio" {
 
 resource "kubernetes_role_binding" "studio" {
   metadata {
-    name = "studio"
+    namespace = var.namespace
+    name      = "studio"
   }
 
   subject {

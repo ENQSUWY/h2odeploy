@@ -5,7 +5,7 @@ locals {
 
   ingress_host = {
     # (local.PDT_SUBDOMAIN) = "${var.prefix}.${var.domain}",
-    (local.PDT_SUBDOMAIN) = var.domain, 
+    (local.PDT_SUBDOMAIN) = var.domain
     (local.PDT_NODE_PORT) = var.domain
   }[local.pdt]
 

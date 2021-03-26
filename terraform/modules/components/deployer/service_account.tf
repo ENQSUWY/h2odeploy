@@ -3,13 +3,15 @@
 
 resource "kubernetes_service_account" "deployer_service_account" {
   metadata {
-    name = "${var.prefix}-deployer-service-account"
+    namespace = var.namespace
+    name      = "${var.prefix}-deployer-service-account"
   }
 }
 
 data "kubernetes_secret" "deployer_service_account" {
   metadata {
-    name = kubernetes_service_account.deployer_service_account.default_secret_name
+    namespace = var.namespace
+    name      = kubernetes_service_account.deployer_service_account.default_secret_name
   }
 }
 
@@ -19,8 +21,9 @@ resource "kubernetes_cluster_role_binding" "deployer" {
   }
 
   subject {
-    kind = "ServiceAccount"
-    name = kubernetes_service_account.deployer_service_account.metadata[0].name
+    namespace = var.environment_namespace
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.deployer_service_account.metadata[0].name
   }
 
   role_ref {

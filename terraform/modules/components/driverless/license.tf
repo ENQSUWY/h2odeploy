@@ -4,7 +4,8 @@ locals {
 
 resource "kubernetes_secret" "driverless_license" {
   metadata {
-    name = local.license_secret_name
+    namespace = var.namespace
+    name      = local.license_secret_name
   }
 
   data = {

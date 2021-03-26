@@ -54,3 +54,7 @@ variable "volume_size" {
   description = "Size of the volume used for the data directory in GiB."
   type        = number
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Storage will be installed."
+}

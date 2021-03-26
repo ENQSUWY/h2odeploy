@@ -1,4 +1,4 @@
-output internal_url {
+output "internal_url" {
   value = "http://${local.influxdb_name}:${local.http_port}"
 }
 

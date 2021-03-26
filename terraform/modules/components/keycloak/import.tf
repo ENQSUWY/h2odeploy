@@ -27,7 +27,8 @@ resource "random_password" "retrainer_client_secret" {
 
 resource "kubernetes_secret" "keycloak_import" {
   metadata {
-    name = "${local.keycloak_name}-import"
+    namespace = var.namespace
+    name      = "${local.keycloak_name}-import"
   }
 
   data = {
@@ -56,7 +57,8 @@ resource "kubernetes_secret" "keycloak_import" {
 
 resource "kubernetes_secret" "client_secrets" {
   metadata {
-    name = local.client_secrets_name
+    namespace = var.namespace
+    name      = local.client_secrets_name
   }
 
   data = {

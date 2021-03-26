@@ -11,7 +11,8 @@ locals {
 
 resource "kubernetes_service_account" "ambassador" {
   metadata {
-    name = local.ambassador_name
+    namespace = var.namespace
+    name      = local.ambassador_name
   }
   automount_service_account_token = true
 }
@@ -58,8 +59,9 @@ resource "kubernetes_cluster_role_binding" "ambassador" {
   }
 
   subject {
-    kind = "ServiceAccount"
-    name = local.ambassador_name
+    namespace = var.namespace
+    kind      = "ServiceAccount"
+    name      = local.ambassador_name
   }
 
   role_ref {
@@ -71,7 +73,8 @@ resource "kubernetes_cluster_role_binding" "ambassador" {
 
 resource "kubernetes_deployment" "ambassador" {
   metadata {
-    name = local.ambassador_name
+    namespace = var.namespace
+    name      = local.ambassador_name
   }
 
   spec {
@@ -161,7 +164,8 @@ resource "kubernetes_deployment" "ambassador" {
 
 resource "kubernetes_service" "ambassador" {
   metadata {
-    name = local.ambassador_name
+    namespace = var.namespace
+    name      = local.ambassador_name
 
     annotations = {
       "getambassador.io/config" = templatefile("${path.module}/templates/ambassador.yaml",
@@ -195,7 +199,8 @@ resource "kubernetes_service" "ambassador" {
 
 resource "kubernetes_service" "ambassador_admin" {
   metadata {
-    name = "${local.ambassador_name}-admin"
+    namespace = var.namespace
+    name      = "${local.ambassador_name}-admin"
   }
 
   spec {
@@ -226,7 +231,8 @@ resource "kubernetes_service" "ambassador_admin" {
 # reachable directly.
 resource "kubernetes_ingress" "ambassador" {
   metadata {
-    name = local.ambassador_name
+    namespace = var.namespace
+    name      = local.ambassador_name
     annotations = {
       "kubernetes.io/ingress.class" = var.kubernetes_io_ingress_class
     }

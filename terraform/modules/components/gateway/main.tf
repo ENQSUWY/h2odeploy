@@ -13,7 +13,8 @@ locals {
 
 resource "kubernetes_config_map" "gateway_env" {
   metadata {
-    name = "${local.gateway_name}-env"
+    namespace = var.namespace
+    name      = "${local.gateway_name}-env"
   }
 
   data = {
@@ -43,8 +44,9 @@ resource "kubernetes_config_map" "gateway_env" {
 
 resource "kubernetes_deployment" "gateway" {
   metadata {
-    name   = local.gateway_name
-    labels = local.gateway_labels
+    namespace = var.namespace
+    name      = local.gateway_name
+    labels    = local.gateway_labels
   }
 
   spec {
@@ -118,7 +120,8 @@ resource "kubernetes_deployment" "gateway" {
 
 resource "kubernetes_service" "gateway" {
   metadata {
-    name = local.gateway_name
+    namespace = var.namespace
+    name      = local.gateway_name
   }
 
   spec {
@@ -136,9 +139,10 @@ resource "kubernetes_service" "gateway" {
 
 resource "kubernetes_ingress" "gateway" {
   metadata {
-    name = local.gateway_name
+    namespace = var.namespace
+    name      = local.gateway_name
     annotations = {
-      "kubernetes.io/ingress.class" = "traefik"
+      "kubernetes.io/ingress.class" = var.kubernetes_io_ingress_class
     }
   }
 

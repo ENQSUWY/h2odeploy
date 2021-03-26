@@ -38,3 +38,7 @@ variable "clickhouse_admin_secret_name" {
 variable "mapbox_access_token" {
   description = "Access token with which to authorize with Mapbox."
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Q will be installed."
+}

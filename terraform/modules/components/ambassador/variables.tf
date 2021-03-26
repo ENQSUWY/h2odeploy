@@ -23,3 +23,7 @@ variable "ambassador_tag" {
 variable "ui_public_url" {
   description = "Public URL of MM UI for setting up deployed scorers' CORS for MM UI introspection."
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Ambassador will be installed."
+}

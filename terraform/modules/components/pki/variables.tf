@@ -2,7 +2,7 @@ variable "prefix" {
   description = "What prefix will be used for the resources used for the deployment."
 }
 
-variable "namespace" {
+variable "components_namespace" {
   description = "Kubernetes namespace where components will be installed. This is particularly important for DAI instances trying to reach storage, since the namespace must be specific in the hostname and mTLS certificate."
 }
 
@@ -26,4 +26,8 @@ variable "tls_clients" {
     // Whether SPIFFE information should be included in the certificate.
     spiffe : bool,
   }))
+}
+
+variable "namespace" {
+  description = "Kubernetes namespace where certificates will be installed."
 }

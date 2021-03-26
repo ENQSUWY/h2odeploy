@@ -10,7 +10,8 @@ locals {
 
 resource "kubernetes_config_map" "drift_detection_worker_env" {
   metadata {
-    name = "${local.drift_detection_worker_name}-env"
+    namespace = var.namespace
+    name      = "${local.drift_detection_worker_name}-env"
   }
 
   data = {
@@ -23,8 +24,9 @@ resource "kubernetes_config_map" "drift_detection_worker_env" {
 
 resource "kubernetes_deployment" "drift_detection_worker" {
   metadata {
-    name   = local.drift_detection_worker_name
-    labels = local.drift_detection_worker_labels
+    namespace = var.namespace
+    name      = local.drift_detection_worker_name
+    labels    = local.drift_detection_worker_labels
   }
 
   spec {

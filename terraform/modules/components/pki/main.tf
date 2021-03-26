@@ -24,7 +24,8 @@ resource "tls_self_signed_cert" "ca" {
 
 resource "kubernetes_secret" "ca" {
   metadata {
-    name = "${var.prefix}-ca"
+    namespace = var.namespace
+    name      = "${var.prefix}-ca"
   }
 
   data = {
@@ -46,7 +47,7 @@ resource "tls_cert_request" "server" {
   key_algorithm   = "RSA"
   private_key_pem = tls_private_key.server[each.key].private_key_pem
 
-  dns_names    = ["localhost", "${var.prefix}-${each.key}", "${var.prefix}-${each.key}.${var.namespace}"]
+  dns_names    = ["localhost", "${var.prefix}-${each.key}", "${var.prefix}-${each.key}.${var.components_namespace}"]
   ip_addresses = ["127.0.0.1"]
 
   subject {
@@ -76,7 +77,8 @@ resource "kubernetes_secret" "tls_server" {
   for_each = toset(var.tls_servers)
 
   metadata {
-    name = "${var.prefix}-${each.key}-tls-server"
+    namespace = var.namespace
+    name      = "${var.prefix}-${each.key}-tls-server"
   }
 
   data = {
@@ -129,7 +131,8 @@ resource "kubernetes_secret" "tls_client" {
   for_each = var.tls_clients
 
   metadata {
-    name = "${var.prefix}-${each.key}-tls-client"
+    namespace = var.namespace
+    name      = "${var.prefix}-${each.key}-tls-client"
   }
 
   data = {

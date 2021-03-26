@@ -13,8 +13,9 @@ locals {
 
 resource "kubernetes_persistent_volume_claim" "grafana_data" {
   metadata {
-    name   = "${local.grafana_name}-data"
-    labels = local.grafana_labels
+    namespace = var.namespace
+    name      = "${local.grafana_name}-data"
+    labels    = local.grafana_labels
   }
 
   spec {
@@ -32,7 +33,8 @@ resource "kubernetes_persistent_volume_claim" "grafana_data" {
 
 resource "kubernetes_config_map" "grafana_datasources" {
   metadata {
-    name = "${local.grafana_name}-config"
+    namespace = var.namespace
+    name      = "${local.grafana_name}-config"
   }
 
   data = {
@@ -47,7 +49,8 @@ resource "kubernetes_config_map" "grafana_datasources" {
 
 resource "kubernetes_config_map" "grafana_env" {
   metadata {
-    name = "${local.grafana_name}-env"
+    namespace = var.namespace
+    name      = "${local.grafana_name}-env"
   }
 
   data = {
@@ -71,7 +74,8 @@ resource "random_password" "grafana_admin" {
 
 resource "kubernetes_secret" "grafana_admin" {
   metadata {
-    name = "${local.grafana_name}-admin"
+    namespace = var.namespace
+    name      = "${local.grafana_name}-admin"
   }
 
   data = {
@@ -82,8 +86,9 @@ resource "kubernetes_secret" "grafana_admin" {
 
 resource "kubernetes_deployment" "grafana" {
   metadata {
-    name   = local.grafana_name
-    labels = local.grafana_labels
+    namespace = var.namespace
+    name      = local.grafana_name
+    labels    = local.grafana_labels
   }
 
   spec {
@@ -185,7 +190,8 @@ resource "kubernetes_deployment" "grafana" {
 
 resource "kubernetes_service" "grafana" {
   metadata {
-    name = local.grafana_name
+    namespace = var.namespace
+    name      = local.grafana_name
   }
 
   spec {
@@ -203,7 +209,8 @@ resource "kubernetes_service" "grafana" {
 
 resource "kubernetes_ingress" "grafana" {
   metadata {
-    name = local.grafana_name
+    namespace = var.namespace
+    name      = local.grafana_name
     annotations = {
       "kubernetes.io/ingress.class" = var.kubernetes_io_ingress_class
     }

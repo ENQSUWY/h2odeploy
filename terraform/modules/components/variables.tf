@@ -12,11 +12,6 @@ variable "protocol" {
 
 variable "namespace" {
   description = "Kubernetes namespace where components will be installed. This is particularly important for DAI instances trying to reach storage, since the namespace must be specific in the hostname and mTLS certificate."
-
-  validation {
-    condition     = contains(["default"], var.namespace)
-    error_message = "Variable namespace must be the value 'default' at the present time."
-  }
 }
 
 variable "ingress_host" {

@@ -11,7 +11,8 @@ locals {
 
 resource "kubernetes_config_map" "ingestion_env" {
   metadata {
-    name = "${local.ingestion_name}-env"
+    namespace = var.namespace
+    name      = "${local.ingestion_name}-env"
   }
 
   data = {
@@ -35,8 +36,9 @@ resource "kubernetes_config_map" "ingestion_env" {
 
 resource "kubernetes_deployment" "ingestion" {
   metadata {
-    name   = local.ingestion_name
-    labels = local.ingestion_labels
+    namespace = var.namespace
+    name      = local.ingestion_name
+    labels    = local.ingestion_labels
   }
 
   spec {
@@ -127,7 +129,8 @@ resource "kubernetes_deployment" "ingestion" {
 
 resource "kubernetes_service" "ingestion" {
   metadata {
-    name = local.ingestion_name
+    namespace = var.namespace
+    name      = local.ingestion_name
   }
 
   spec {

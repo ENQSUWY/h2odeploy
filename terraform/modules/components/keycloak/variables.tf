@@ -37,3 +37,7 @@ variable "volume_size" {
   type        = number
   default     = 5
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Keycloak will be installed."
+}

@@ -10,3 +10,7 @@ variable "traefik_tag" {
 variable "traefik_ingress_service_type" {
   description = "Choose from: ClusterIP, NodePort, LoadBalancer"
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Traefik will be installed."
+}

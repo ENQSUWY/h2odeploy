@@ -77,3 +77,11 @@ variable "storage_service" {
     port = number
   })
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Deployer will be installed."
+}
+
+variable "environment_namespace" {
+  description = "Kubernetes namespace where Deployer will deploy models."
+}

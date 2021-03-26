@@ -14,7 +14,8 @@ locals {
 #   count = var.driverless_count
 
 #   metadata {
-#     name = "${local.driverless_name}-${format("%02d", count.index + 1)}-tmp"
+#     namespace = var.namespace
+#     name      = "${local.driverless_name}-${format("%02d", count.index + 1)}-tmp"
 #     labels = merge(
 #       local.driverless_labels,
 #       {
@@ -38,7 +39,8 @@ locals {
 
 # resource "kubernetes_config_map" "driverless_env" {
 #   metadata {
-#     name = "${local.driverless_name}-env"
+#     namespace = var.namespace
+#     name      = "${local.driverless_name}-env"
 #   }
 
 #   data = {
@@ -97,7 +99,8 @@ locals {
 #   }
 
 #   metadata {
-#     name = "${local.driverless_name}-${format("%02d", count.index + 1)}"
+#     namespace = var.namespace
+#     name      = "${local.driverless_name}-${format("%02d", count.index + 1)}"
 #     labels = merge(
 #       local.driverless_labels,
 #       {
@@ -137,7 +140,7 @@ locals {
 #           name = "tmp"
 
 #           persistent_volume_claim {
-#             claim_name = "${local.driverless_name}-${format("%02d", count.index + 1)}-tmp"
+#             claim_name = kubernetes_persistent_volume_claim.driverless_tmp[count.index].metadata[0].name
 #           }
 #         }
 
@@ -236,7 +239,8 @@ locals {
 #   count = var.driverless_count
 
 #   metadata {
-#     name = "${local.driverless_name}-${format("%02d", count.index + 1)}"
+#     namespace = var.namespace
+#     name      = "${local.driverless_name}-${format("%02d", count.index + 1)}"
 #   }
 
 #   spec {
@@ -261,7 +265,8 @@ locals {
 #   count = var.driverless_count
 
 #   metadata {
-#     name = "${local.driverless_name}-${format("%02d", count.index + 1)}"
+#     namespace = var.namespace
+#     name      = "${local.driverless_name}-${format("%02d", count.index + 1)}"
 #     annotations = {
 #       "kubernetes.io/ingress.class" = var.kubernetes_io_ingress_class
 #     }

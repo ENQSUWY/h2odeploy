@@ -13,7 +13,8 @@ locals {
 
 resource "kubernetes_config_map" "ui_env" {
   metadata {
-    name = "${local.ui_name}-env"
+    namespace = var.namespace
+    name      = "${local.ui_name}-env"
   }
 
   data = {
@@ -60,7 +61,8 @@ resource "random_password" "ui_cookie_encrypt_secret" {
 
 resource "kubernetes_secret" "ui_secrets" {
   metadata {
-    name = "${local.ui_name}-secrets"
+    namespace = var.namespace
+    name      = "${local.ui_name}-secrets"
   }
 
   data = {
@@ -71,8 +73,9 @@ resource "kubernetes_secret" "ui_secrets" {
 
 resource "kubernetes_deployment" "ui" {
   metadata {
-    name   = local.ui_name
-    labels = local.ui_labels
+    namespace = var.namespace
+    name      = local.ui_name
+    labels    = local.ui_labels
   }
 
   spec {
@@ -176,7 +179,8 @@ resource "kubernetes_deployment" "ui" {
 
 resource "kubernetes_service" "ui" {
   metadata {
-    name = local.ui_name
+    namespace = var.namespace
+    name      = local.ui_name
   }
 
   spec {
@@ -194,7 +198,8 @@ resource "kubernetes_service" "ui" {
 
 resource "kubernetes_ingress" "ui" {
   metadata {
-    name = local.ui_name
+    namespace = var.namespace
+    name      = local.ui_name
     annotations = {
       "kubernetes.io/ingress.class" = var.kubernetes_io_ingress_class
     }

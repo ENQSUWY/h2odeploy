@@ -13,7 +13,8 @@ locals {
 
 resource "kubernetes_service_account" "traefik_ingress_controller" {
   metadata {
-    name = "${local.traefik_name}-ingress-controller"
+    namespace = var.namespace
+    name      = "${local.traefik_name}-ingress-controller"
   }
 
   automount_service_account_token = true
@@ -21,7 +22,8 @@ resource "kubernetes_service_account" "traefik_ingress_controller" {
 
 resource "kubernetes_daemonset" "traefik_ingress_controller" {
   metadata {
-    name = "${local.traefik_name}-ingress-controller"
+    namespace = var.namespace
+    name      = "${local.traefik_name}-ingress-controller"
   }
 
   spec {
@@ -69,7 +71,8 @@ resource "kubernetes_daemonset" "traefik_ingress_controller" {
 
 resource "kubernetes_service" "traefik_ingress_service" {
   metadata {
-    name = "${local.traefik_name}-ingress-service"
+    namespace = var.namespace
+    name      = "${local.traefik_name}-ingress-service"
   }
 
   spec {
@@ -123,8 +126,9 @@ resource "kubernetes_cluster_role_binding" "traefik_ingress_controller" {
   }
 
   subject {
-    kind = "ServiceAccount"
-    name = "${local.traefik_name}-ingress-controller"
+    namespace = var.namespace
+    kind      = "ServiceAccount"
+    name      = "${local.traefik_name}-ingress-controller"
   }
 
   role_ref {
@@ -136,7 +140,8 @@ resource "kubernetes_cluster_role_binding" "traefik_ingress_controller" {
 
 resource "kubernetes_service" "traefik_web_ui_service" {
   metadata {
-    name = "${local.traefik_name}-web-ui"
+    namespace = var.namespace
+    name      = "${local.traefik_name}-web-ui"
   }
 
   spec {

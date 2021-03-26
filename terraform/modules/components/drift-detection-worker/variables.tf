@@ -17,3 +17,7 @@ variable "influx_service" {
 variable "rabbitmq_drift_secrets" {
   description = "Kubernetes secret name for Drift Detection specific secrets"
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Drift detection worker will be installed."
+}

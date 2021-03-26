@@ -15,7 +15,8 @@ locals {
 
 resource "kubernetes_config_map" "deployer_config" {
   metadata {
-    name = "${local.deployer_name}-config"
+    namespace = var.namespace
+    name      = "${local.deployer_name}-config"
   }
 
   data = {
@@ -30,6 +31,7 @@ resource "kubernetes_config_map" "deployer_config" {
 
         influxdb_url = var.influxdb_internal_url
 
+        namespace             = var.environment_namespace
         service_account_token = data.kubernetes_secret.deployer_service_account.data.token
         ca_cert_data          = local.deployer_cacert_data
 
@@ -51,8 +53,9 @@ resource "kubernetes_config_map" "deployer_config" {
 
 resource "kubernetes_deployment" "deployer" {
   metadata {
-    name   = local.deployer_name
-    labels = local.deployer_labels
+    namespace = var.namespace
+    name      = local.deployer_name
+    labels    = local.deployer_labels
   }
 
   spec {
@@ -102,6 +105,19 @@ resource "kubernetes_deployment" "deployer" {
           }
         }
 
+        volume {
+          name = "license"
+
+          secret {
+            secret_name = var.driverless_license_secret_name
+
+            items {
+              key  = "license.sig"
+              path = "license.sig"
+            }
+          }
+        }
+
         container {
           name = local.deployer_name
 
@@ -114,19 +130,6 @@ resource "kubernetes_deployment" "deployer" {
             "-classpath", "/app/classpath/*:/app/libs/*",
             "ai.h2o.deploy.deployer.Deployer",
           ]
-
-          env {
-            # Mojo library also needs Driverless licence set in order to parse
-            # and augment mojo for the deployment.
-            name = "DRIVERLESS_AI_LICENSE_KEY"
-            value_from {
-              secret_key_ref {
-                name = var.driverless_license_secret_name
-                key  = "license.sig"
-              }
-            }
-
-          }
 
           port {
             container_port = local.deployer_port
@@ -152,6 +155,19 @@ resource "kubernetes_deployment" "deployer" {
             mount_path = "/pki/server"
           }
 
+          volume_mount {
+            name       = "license"
+            mount_path = "/license"
+            read_only  = true
+          }
+
+          env {
+            # Mojo library also needs Driverless license set in order to parse
+            # and augment mojo for the deployment.
+            name  = "DRIVERLESS_AI_LICENSE_FILE"
+            value = "/license/license.sig"
+          }
+
           liveness_probe {
             tcp_socket {
               port = local.deployer_port
@@ -168,7 +184,8 @@ resource "kubernetes_deployment" "deployer" {
 
 resource "kubernetes_service" "deployer" {
   metadata {
-    name = local.deployer_name
+    namespace = var.namespace
+    name      = local.deployer_name
   }
 
   spec {

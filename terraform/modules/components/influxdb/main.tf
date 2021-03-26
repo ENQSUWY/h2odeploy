@@ -13,8 +13,9 @@ locals {
 
 resource "kubernetes_persistent_volume_claim" "influxdb_wal" {
   metadata {
-    name   = "${local.influxdb_name}-wal"
-    labels = local.influxdb_labels
+    namespace = var.namespace
+    name      = "${local.influxdb_name}-wal"
+    labels    = local.influxdb_labels
   }
 
   spec {
@@ -32,8 +33,9 @@ resource "kubernetes_persistent_volume_claim" "influxdb_wal" {
 
 resource "kubernetes_persistent_volume_claim" "influxdb_data" {
   metadata {
-    name   = "${local.influxdb_name}-data"
-    labels = local.influxdb_labels
+    namespace = var.namespace
+    name      = "${local.influxdb_name}-data"
+    labels    = local.influxdb_labels
   }
 
   spec {
@@ -51,7 +53,8 @@ resource "kubernetes_persistent_volume_claim" "influxdb_data" {
 
 resource "kubernetes_config_map" "influxdb_env" {
   metadata {
-    name = "${local.influxdb_name}-env"
+    namespace = var.namespace
+    name      = "${local.influxdb_name}-env"
   }
 
   data = {
@@ -64,8 +67,9 @@ resource "kubernetes_config_map" "influxdb_env" {
 
 resource "kubernetes_deployment" "influxdb" {
   metadata {
-    name   = local.influxdb_name
-    labels = local.influxdb_labels
+    namespace = var.namespace
+    name      = local.influxdb_name
+    labels    = local.influxdb_labels
   }
 
   spec {
@@ -150,7 +154,8 @@ resource "kubernetes_deployment" "influxdb" {
 
 resource "kubernetes_service" "influxdb" {
   metadata {
-    name = local.influxdb_name
+    namespace = var.namespace
+    name      = local.influxdb_name
   }
 
   spec {

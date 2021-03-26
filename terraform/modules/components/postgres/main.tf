@@ -13,8 +13,9 @@ locals {
 
 resource "kubernetes_persistent_volume_claim" "postgres_data" {
   metadata {
-    name   = "${local.postgres_name}-data"
-    labels = local.postgres_labels
+    namespace = var.namespace
+    name      = "${local.postgres_name}-data"
+    labels    = local.postgres_labels
   }
 
   spec {
@@ -40,7 +41,8 @@ resource "random_password" "postgres_storage_password" {
 
 resource "kubernetes_secret" "postgres_admin" {
   metadata {
-    name = "${local.postgres_name}-admin"
+    namespace = var.namespace
+    name      = "${local.postgres_name}-admin"
   }
 
   data = {
@@ -50,7 +52,8 @@ resource "kubernetes_secret" "postgres_admin" {
 
 resource "kubernetes_secret" "postgres_storage" {
   metadata {
-    name = "${local.postgres_name}-storage"
+    namespace = var.namespace
+    name      = "${local.postgres_name}-storage"
   }
 
   data = {
@@ -62,7 +65,8 @@ resource "kubernetes_secret" "postgres_storage" {
 
 resource "kubernetes_config_map" "postgres_init_scripts" {
   metadata {
-    name = "${local.postgres_name}-init-scripts"
+    namespace = var.namespace
+    name      = "${local.postgres_name}-init-scripts"
   }
 
   data = {
@@ -74,8 +78,9 @@ resource "kubernetes_config_map" "postgres_init_scripts" {
 
 resource "kubernetes_deployment" "postgres" {
   metadata {
-    name   = local.postgres_name
-    labels = local.postgres_labels
+    namespace = var.namespace
+    name      = local.postgres_name
+    labels    = local.postgres_labels
   }
 
   spec {
@@ -188,7 +193,8 @@ resource "kubernetes_deployment" "postgres" {
 
 resource "kubernetes_service" "postgres" {
   metadata {
-    name = local.postgres_name
+    namespace = var.namespace
+    name      = local.postgres_name
   }
 
   spec {

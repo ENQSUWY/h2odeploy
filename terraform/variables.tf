@@ -13,21 +13,15 @@ variable "protocol" {
 
 variable "namespace" {
   description = "Kubernetes namespace where components will be installed. This is particularly important for DAI instances trying to reach storage, since the namespace must be specific in the hostname and mTLS certificate."
-  # default     = "default"
-  default     = "mlops"
+  default     = "default"
   type        = string
-
-  validation {
-    condition     = contains(["mlops"], var.namespace)
-    error_message = "Variable namespace must be the value 'mlops' at the present time."
-  }
 }
 
 # EKS config
 
 variable "eks_admin_arns" {
   description = "ARNs of AWS users to have admin access to the EKS cluster. This needs to be set if you want to allow acces to the server to different accounts"
-  type        = list
+  type        = list(any)
   default     = []
 }
 

@@ -20,7 +20,8 @@ resource "random_password" "clickhouse_admin" {
 
 resource "kubernetes_secret" "clickhouse_admin" {
   metadata {
-    name = "${local.clickhouse_name}-admin"
+    namespace = var.namespace
+    name      = "${local.clickhouse_name}-admin"
   }
 
   data = {
@@ -33,7 +34,8 @@ resource "kubernetes_secret" "clickhouse_admin" {
 
 resource "kubernetes_config_map" "clickhouse_config" {
   metadata {
-    name = "${local.clickhouse_name}-config"
+    namespace = var.namespace
+    name      = "${local.clickhouse_name}-config"
   }
 
   data = {
@@ -54,8 +56,9 @@ resource "kubernetes_config_map" "clickhouse_config" {
 
 resource "kubernetes_persistent_volume_claim" "clickhouse_data" {
   metadata {
-    name   = "${local.clickhouse_name}-data"
-    labels = local.clickhouse_labels
+    namespace = var.namespace
+    name      = "${local.clickhouse_name}-data"
+    labels    = local.clickhouse_labels
   }
 
   spec {
@@ -74,8 +77,9 @@ resource "kubernetes_persistent_volume_claim" "clickhouse_data" {
 // TODO(orendain): Set ClickHouse container nofile ulimit to 262144.
 resource "kubernetes_deployment" "clickhouse" {
   metadata {
-    name   = local.clickhouse_name
-    labels = local.clickhouse_labels
+    namespace = var.namespace
+    name      = local.clickhouse_name
+    labels    = local.clickhouse_labels
   }
 
   spec {
@@ -182,7 +186,8 @@ resource "kubernetes_deployment" "clickhouse" {
 
 resource "kubernetes_service" "clickhouse" {
   metadata {
-    name = local.clickhouse_name
+    namespace = var.namespace
+    name      = local.clickhouse_name
   }
 
   spec {

@@ -21,3 +21,7 @@ variable "wal_volume_size" {
   type        = number
   default     = 10
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where InfluxDB will be installed."
+}

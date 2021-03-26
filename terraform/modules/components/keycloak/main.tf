@@ -13,8 +13,9 @@ locals {
 
 resource "kubernetes_persistent_volume_claim" "keycloak_data" {
   metadata {
-    name   = "${local.keycloak_name}-data"
-    labels = local.keycloak_labels
+    namespace = var.namespace
+    name      = "${local.keycloak_name}-data"
+    labels    = local.keycloak_labels
   }
 
   spec {
@@ -32,7 +33,8 @@ resource "kubernetes_persistent_volume_claim" "keycloak_data" {
 
 resource "kubernetes_config_map" "keycloak_env" {
   metadata {
-    name = "${local.keycloak_name}-env"
+    namespace = var.namespace
+    name      = "${local.keycloak_name}-env"
   }
 
   data = {
@@ -48,7 +50,8 @@ resource "random_password" "keycloak_admin" {
 
 resource "kubernetes_secret" "keycloak_admin" {
   metadata {
-    name = "${local.keycloak_name}-admin"
+    namespace = var.namespace
+    name      = "${local.keycloak_name}-admin"
   }
 
   data = {
@@ -59,8 +62,9 @@ resource "kubernetes_secret" "keycloak_admin" {
 
 resource "kubernetes_deployment" "keycloak" {
   metadata {
-    name   = local.keycloak_name
-    labels = local.keycloak_labels
+    namespace = var.namespace
+    name      = local.keycloak_name
+    labels    = local.keycloak_labels
   }
 
   spec {
@@ -166,7 +170,8 @@ resource "kubernetes_deployment" "keycloak" {
 
 resource "kubernetes_service" "keycloak" {
   metadata {
-    name = local.keycloak_name
+    namespace = var.namespace
+    name      = local.keycloak_name
   }
 
   spec {
@@ -184,9 +189,10 @@ resource "kubernetes_service" "keycloak" {
 
 resource "kubernetes_ingress" "keycloak" {
   metadata {
-    name = local.keycloak_name
+    namespace = var.namespace
+    name      = local.keycloak_name
     annotations = {
-      "kubernetes.io/ingress.class" = "traefik"
+      "kubernetes.io/ingress.class" = var.kubernetes_io_ingress_class
     }
   }
 

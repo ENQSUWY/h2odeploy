@@ -23,3 +23,7 @@ variable "volume_size" {
   description = "Size of the volume used for the data in GiB."
   type        = number
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where ClickHouse will be installed."
+}

@@ -14,3 +14,7 @@ variable "chronograf_tag" {
 variable "influxdb_internal_url" {
   description = "Internal URL of InfluxDB server."
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Chronograph will be installed."
+}

@@ -1,6 +1,6 @@
 variable "admin_arns" {
   description = "ARNs of AWS users to have admin access to the EKS cluster."
-  type        = list
+  type        = list(any)
   default     = []
 }
 

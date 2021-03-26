@@ -13,8 +13,9 @@ locals {
 
 resource "kubernetes_persistent_volume_claim" "prometheus_server_data" {
   metadata {
-    name   = "${local.prometheus_server_name}-data"
-    labels = local.prometheus_server_labels
+    namespace = var.namespace
+    name      = "${local.prometheus_server_name}-data"
+    labels    = local.prometheus_server_labels
   }
 
   spec {
@@ -32,7 +33,8 @@ resource "kubernetes_persistent_volume_claim" "prometheus_server_data" {
 
 resource "kubernetes_config_map" "prometheus_server_config" {
   metadata {
-    name = "${local.prometheus_server_name}-config"
+    namespace = var.namespace
+    name      = "${local.prometheus_server_name}-config"
   }
 
   data = {
@@ -46,8 +48,9 @@ resource "kubernetes_config_map" "prometheus_server_config" {
 
 resource "kubernetes_deployment" "prometheus_server" {
   metadata {
-    name   = local.prometheus_server_name
-    labels = local.prometheus_server_labels
+    namespace = var.namespace
+    name      = local.prometheus_server_name
+    labels    = local.prometheus_server_labels
   }
 
   spec {
@@ -136,7 +139,8 @@ resource "kubernetes_deployment" "prometheus_server" {
 
 resource "kubernetes_service" "prometheus_server" {
   metadata {
-    name = local.prometheus_server_name
+    namespace = var.namespace
+    name      = local.prometheus_server_name
   }
 
   spec {

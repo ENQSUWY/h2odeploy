@@ -87,3 +87,7 @@ variable "model_ingestion_service" {
     port = number
   })
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where MLOps UI will be installed."
+}

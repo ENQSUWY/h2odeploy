@@ -22,7 +22,8 @@ resource "random_password" "rabbitmq_driftuser" {
 
 resource "kubernetes_secret" "rabbitmq_drift_env" {
   metadata {
-    name = "${local.rabbitmq_name}-env"
+    namespace = var.namespace
+    name      = "${local.rabbitmq_name}-env"
   }
 
   data = {
@@ -34,8 +35,9 @@ resource "kubernetes_secret" "rabbitmq_drift_env" {
 
 resource "kubernetes_persistent_volume_claim" "rabbitmq_data" {
   metadata {
-    name   = "${local.rabbitmq_name}-data"
-    labels = local.rabbitmq_labels
+    namespace = var.namespace
+    name      = "${local.rabbitmq_name}-data"
+    labels    = local.rabbitmq_labels
   }
 
   spec {
@@ -53,8 +55,9 @@ resource "kubernetes_persistent_volume_claim" "rabbitmq_data" {
 
 resource "kubernetes_deployment" "rabbitmq" {
   metadata {
-    name   = local.rabbitmq_name
-    labels = local.rabbitmq_labels
+    namespace = var.namespace
+    name      = local.rabbitmq_name
+    labels    = local.rabbitmq_labels
   }
 
   spec {
@@ -126,7 +129,8 @@ resource "kubernetes_deployment" "rabbitmq" {
 
 resource "kubernetes_service" "rabbitmq" {
   metadata {
-    name = local.rabbitmq_name
+    namespace = var.namespace
+    name      = local.rabbitmq_name
   }
 
   spec {

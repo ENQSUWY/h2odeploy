@@ -25,3 +25,7 @@ variable "tls_server_secret_name" {
 variable "storage_service" {
   description = "Description of the Storage service"
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Model Ingestion will be installed."
+}

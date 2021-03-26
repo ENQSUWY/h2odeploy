@@ -6,6 +6,11 @@ variable "service_type" {
   description = "Type of the service that will be used for deployments. Should be 'NodePort' for minikube and 'ClusterIP' for EKS."
 }
 
+variable "kubernetes_io_ingress_class" {
+  description = "Ingress class that hooks up services exposed to the user."
+  type        = string
+}
+
 variable "ingress_host" {
   description = "Base domain for the ingresses."
 }
@@ -13,7 +18,6 @@ variable "ingress_host" {
 variable "gateway_image" {
   description = "What docker image use for MLOps gRPC Gateway pod."
 }
-
 
 variable "ca_secret_name" {
   description = "Name of kubernetes secret holding CA certificate."
@@ -45,4 +49,8 @@ variable "model_ingestion_service" {
     name = string
     port = number
   })
+}
+
+variable "namespace" {
+  description = "Kubernetes namespace where gRPC Gateway will be installed."
 }

@@ -20,3 +20,7 @@ variable "volume_size" {
   type        = number
   default     = 20
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where PostgreSQL will be installed."
+}

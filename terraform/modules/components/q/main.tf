@@ -16,7 +16,8 @@ locals {
 
 data "kubernetes_secret" "clickhouse_admin" {
   metadata {
-    name = var.clickhouse_admin_secret_name
+    namespace = var.namespace
+    name      = var.clickhouse_admin_secret_name
   }
 }
 
@@ -30,7 +31,8 @@ resource "random_password" "q_system" {
 
 resource "kubernetes_secret" "q_admin" {
   metadata {
-    name = "${local.q_name}-admin"
+    namespace = var.namespace
+    name      = "${local.q_name}-admin"
   }
 
   data = {
@@ -43,7 +45,8 @@ resource "kubernetes_secret" "q_admin" {
 
 resource "kubernetes_secret" "q_system" {
   metadata {
-    name = "${local.q_name}-system"
+    namespace = var.namespace
+    name      = "${local.q_name}-system"
   }
 
   data = {
@@ -56,7 +59,8 @@ resource "kubernetes_secret" "q_system" {
 
 resource "kubernetes_secret" "q_config" {
   metadata {
-    name = "${local.q_name}-config"
+    namespace = var.namespace
+    name      = "${local.q_name}-config"
   }
 
   data = {
@@ -78,8 +82,9 @@ resource "kubernetes_secret" "q_config" {
 
 resource "kubernetes_persistent_volume_claim" "q_h2oq" {
   metadata {
-    name   = "${local.q_name}-h2oq"
-    labels = local.q_labels
+    namespace = var.namespace
+    name      = "${local.q_name}-h2oq"
+    labels    = local.q_labels
   }
 
   spec {
@@ -97,8 +102,9 @@ resource "kubernetes_persistent_volume_claim" "q_h2oq" {
 
 resource "kubernetes_deployment" "q" {
   metadata {
-    name   = local.q_name
-    labels = local.q_labels
+    namespace = var.namespace
+    name      = local.q_name
+    labels    = local.q_labels
   }
 
   spec {
@@ -174,7 +180,8 @@ resource "kubernetes_deployment" "q" {
 
 resource "kubernetes_service" "q" {
   metadata {
-    name = local.q_name
+    namespace = var.namespace
+    name      = local.q_name
   }
 
   spec {
@@ -193,7 +200,8 @@ resource "kubernetes_service" "q" {
 
 resource "kubernetes_ingress" "q" {
   metadata {
-    name = local.q_name
+    namespace = var.namespace
+    name      = local.q_name
     annotations = {
       "kubernetes.io/ingress.class" = var.kubernetes_io_ingress_class
     }

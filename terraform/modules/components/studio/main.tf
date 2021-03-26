@@ -13,7 +13,8 @@ locals {
 
 resource "kubernetes_secret" "studio_env" {
   metadata {
-    name = "${local.studio_name}-env"
+    namespace = var.namespace
+    name      = "${local.studio_name}-env"
   }
 
   data = {
@@ -47,8 +48,9 @@ resource "kubernetes_secret" "studio_env" {
 
 resource "kubernetes_deployment" "studio" {
   metadata {
-    name   = local.studio_name
-    labels = local.studio_labels
+    namespace = var.namespace
+    name      = local.studio_name
+    labels    = local.studio_labels
   }
 
   spec {
@@ -98,7 +100,8 @@ resource "kubernetes_deployment" "studio" {
 
 resource "kubernetes_service" "studio" {
   metadata {
-    name = local.studio_name
+    namespace = var.namespace
+    name      = local.studio_name
   }
 
   spec {
@@ -116,7 +119,8 @@ resource "kubernetes_service" "studio" {
 
 resource "kubernetes_ingress" "studio" {
   metadata {
-    name = local.studio_name
+    namespace = var.namespace
+    name      = local.studio_name
     annotations = {
       "kubernetes.io/ingress.class" = var.kubernetes_io_ingress_class
     }

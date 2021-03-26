@@ -14,8 +14,9 @@ locals {
 
 resource "kubernetes_persistent_volume_claim" "storage_data" {
   metadata {
-    name   = "${local.storage_name}-data"
-    labels = local.storage_labels
+    namespace = var.namespace
+    name      = "${local.storage_name}-data"
+    labels    = local.storage_labels
   }
 
   spec {
@@ -33,7 +34,8 @@ resource "kubernetes_persistent_volume_claim" "storage_data" {
 
 resource "kubernetes_config_map" "storage_env" {
   metadata {
-    name = "${local.storage_name}-env"
+    namespace = var.namespace
+    name      = "${local.storage_name}-env"
   }
 
   data = {
@@ -60,7 +62,8 @@ resource "kubernetes_config_map" "storage_env" {
 
 resource "kubernetes_config_map" "bootstrap_roles_config" {
   metadata {
-    name = "${local.storage_roles_name}-config"
+    namespace = var.namespace
+    name      = "${local.storage_roles_name}-config"
   }
 
   data = {
@@ -70,7 +73,8 @@ resource "kubernetes_config_map" "bootstrap_roles_config" {
 
 resource "kubernetes_config_map" "storage_roles_env" {
   metadata {
-    name = "${local.storage_roles_name}-env"
+    namespace = var.namespace
+    name      = "${local.storage_roles_name}-env"
   }
 
   data = {
@@ -83,8 +87,9 @@ resource "kubernetes_config_map" "storage_roles_env" {
 
 resource "kubernetes_deployment" "storage" {
   metadata {
-    name   = local.storage_name
-    labels = local.storage_labels
+    namespace = var.namespace
+    name      = local.storage_name
+    labels    = local.storage_labels
   }
 
   spec {
@@ -240,7 +245,8 @@ resource "kubernetes_deployment" "storage" {
 
 resource "kubernetes_service" "storage" {
   metadata {
-    name = local.storage_name
+    namespace = var.namespace
+    name      = local.storage_name
   }
 
   spec {

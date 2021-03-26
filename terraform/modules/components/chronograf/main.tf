@@ -12,8 +12,9 @@ locals {
 
 resource "kubernetes_persistent_volume_claim" "chronograf_data" {
   metadata {
-    name   = "${local.chronograf_name}-data"
-    labels = local.chronograf_labels
+    namespace = var.namespace
+    name      = "${local.chronograf_name}-data"
+    labels    = local.chronograf_labels
   }
 
   spec {
@@ -31,7 +32,8 @@ resource "kubernetes_persistent_volume_claim" "chronograf_data" {
 
 resource "kubernetes_config_map" "chronograf_env" {
   metadata {
-    name = "${local.chronograf_name}-env"
+    namespace = var.namespace
+    name      = "${local.chronograf_name}-env"
   }
 
   data = {
@@ -44,8 +46,9 @@ resource "kubernetes_config_map" "chronograf_env" {
 
 resource "kubernetes_deployment" "chronograf" {
   metadata {
-    name   = local.chronograf_name
-    labels = local.chronograf_labels
+    namespace = var.namespace
+    name      = local.chronograf_name
+    labels    = local.chronograf_labels
   }
 
   spec {
@@ -112,7 +115,8 @@ resource "kubernetes_deployment" "chronograf" {
 
 resource "kubernetes_service" "chronograf" {
   metadata {
-    name = local.chronograf_name
+    namespace = var.namespace
+    name      = local.chronograf_name
   }
 
   spec {

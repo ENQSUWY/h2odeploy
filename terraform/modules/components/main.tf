@@ -45,8 +45,6 @@ locals {
   }[local.pdt]
 
   studio_driverless_address = {
-    # (local.PDT_SUBDOMAIN) = "${var.protocol}://${module.driverless.ingresses[0].host}"
-    # (local.PDT_NODE_PORT) = "${var.protocol}://${var.ingress_host}:${module.driverless.services[0].node_port}"
     (local.PDT_SUBDOMAIN) = "${var.protocol}://steam.40-71-236-86.h2o.sslip.io"
     (local.PDT_NODE_PORT) = "${var.protocol}://steam.40-71-236-86.h2o.sslip.io"
   }[local.pdt]
@@ -60,14 +58,18 @@ locals {
 module "pki" {
   source = "./pki"
 
-  prefix              = var.prefix
-  namespace           = var.namespace
-  spiffe_trust_domain = var.ingress_host
+  namespace = var.namespace
+  prefix    = var.prefix
+
+  spiffe_trust_domain  = var.ingress_host
+  components_namespace = var.namespace
+
   tls_servers = [
     "deployer",
     "storage",
     "ingestion"
   ]
+
   tls_clients = {
     deployer = {
       spiffe : true,
@@ -93,6 +95,7 @@ module "pki" {
 module "ambassador" {
   source = "./ambassador"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
@@ -105,6 +108,7 @@ module "ambassador" {
 # module "traefik" {
 #   source = "./traefik"
 
+#   namespace                    = var.namespace
 #   prefix                       = var.prefix
 #   traefik_ingress_service_type = var.traefik_ingress_service_type
 # }
@@ -112,6 +116,7 @@ module "ambassador" {
 module "keycloak" {
   source = "./keycloak"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
@@ -138,6 +143,7 @@ module "keycloak" {
 module "influxdb" {
   source = "./influxdb"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
 
@@ -147,6 +153,7 @@ module "influxdb" {
 module "prometheus" {
   source = "./prometheus"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
 }
@@ -154,6 +161,7 @@ module "prometheus" {
 module "grafana" {
   source = "./grafana"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
@@ -184,6 +192,7 @@ module "grafana-auth" {
 module "chronograf" {
   source = "./chronograf"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
 
@@ -197,11 +206,14 @@ module "chronograf" {
 
 # module "metrics" {
 #   source = "./metrics"
+#
+#   namespace = var.namespace
 # }
 
 module "postgres" {
   source = "./postgres"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
 
@@ -211,6 +223,7 @@ module "postgres" {
 module "driverless" {
   source = "./driverless"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
@@ -243,6 +256,7 @@ module "driverless" {
 module "storage" {
   source = "./storage"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
@@ -267,6 +281,7 @@ module "storage" {
 module "deployer" {
   source = "./deployer"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
@@ -287,6 +302,7 @@ module "deployer" {
   model_fetcher_tls_client_secret_name = module.pki.tls_client_secrets_names["fetcher"]
   grafana_api_token                    = module.grafana-auth.admin_api_key
 
+  environment_namespace  = var.namespace
   ca_secret_name         = module.pki.ca_secret_name
   tls_client_secret_name = module.pki.tls_client_secrets_names["deployer"]
   tls_server_secret_name = module.pki.tls_server_secrets_names["deployer"]
@@ -297,6 +313,7 @@ module "deployer" {
 module "ui" {
   source = "./ui"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
@@ -327,6 +344,7 @@ module "ui" {
 module "drift-detection-worker" {
   source = "./drift-detection-worker"
 
+  namespace                    = var.namespace
   prefix                       = var.prefix
   drift_detection_worker_image = var.drift_detection_worker_image
 
@@ -336,7 +354,9 @@ module "drift-detection-worker" {
 }
 
 module "rabbitmq" {
-  source       = "./rabbitmq"
+  source = "./rabbitmq"
+
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
 }
@@ -344,6 +364,7 @@ module "rabbitmq" {
 module "drift-detection-trigger" {
   source = "./drift-detection-trigger"
 
+  namespace                     = var.namespace
   prefix                        = var.prefix
   drift_detection_trigger_image = var.drift_detection_trigger_image
 
@@ -355,6 +376,7 @@ module "drift-detection-trigger" {
 module "studio" {
   source = "./studio"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
@@ -390,20 +412,26 @@ module "ingestion" {
   source                = "./ingestion"
   model_ingestion_image = var.model_ingestion_image
 
-  prefix                 = var.prefix
-  service_type           = var.service_type
+  namespace    = var.namespace
+  prefix       = var.prefix
+  service_type = var.service_type
+
   ca_secret_name         = module.pki.ca_secret_name
   tls_server_secret_name = module.pki.tls_server_secrets_names["ingestion"]
   tls_client_secret_name = module.pki.tls_client_secrets_names["ingestion"]
-  storage_service        = module.storage.service
+
+  storage_service = module.storage.service
 }
 
 module "gateway" {
   source = "./gateway"
 
+  namespace    = var.namespace
   prefix       = var.prefix
   service_type = var.service_type
   ingress_host = var.ingress_host
+
+  kubernetes_io_ingress_class = var.kubernetes_io_ingress_class
 
   gateway_image = var.gateway_image
 

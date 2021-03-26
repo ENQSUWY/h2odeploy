@@ -38,3 +38,7 @@ variable "anonymous_access" {
   description = "Whether to enable anonymous access to Grafana."
   type        = bool
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Grafana will be installed."
+}

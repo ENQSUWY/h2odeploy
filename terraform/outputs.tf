@@ -1,8 +1,8 @@
-# output eks_cluster_name {
+# output "eks_cluster_name" {
 #   value = module.eks_cluster.cluster_name
 # }
 
-# output eks_cluster_auth {
+# output "eks_cluster_auth" {
 #   value = {
 #     ca_data = base64decode(module.eks_cluster.kubernetes.ca_data)
 #     token   = module.eks_cluster.kubernetes.token
@@ -13,7 +13,7 @@
 # output "driverless_services" {
 #   value = module.components.driverless_services
 # }
-# 
+
 output "ui_service" {
   value = module.components.ui_service
 }

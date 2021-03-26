@@ -14,7 +14,8 @@ resource "kubernetes_service_account" "metrics" {
 
 resource "kubernetes_cluster_role" "metrics" {
   metadata {
-    name = "system:metrics-server"
+    namespace = var.namespace
+    name      = "system:metrics-server"
   }
 
   rule {
@@ -26,7 +27,8 @@ resource "kubernetes_cluster_role" "metrics" {
 
 resource "kubernetes_cluster_role_binding" "metrics" {
   metadata {
-    name = "system:metrics-server"
+    namespace = var.namespace
+    name      = "system:metrics-server"
   }
 
   subject {
@@ -44,7 +46,8 @@ resource "kubernetes_cluster_role_binding" "metrics" {
 
 resource "kubernetes_cluster_role" "metrics-reader" {
   metadata {
-    name = "system:aggregated-metrics-reader"
+    namespace = var.namespace
+    name      = "system:aggregated-metrics-reader"
 
     labels = {
       "rbac.authorization.k8s.io/aggregate-to-view"  = true
@@ -62,8 +65,8 @@ resource "kubernetes_cluster_role" "metrics-reader" {
 
 resource "kubernetes_service" "metrics" {
   metadata {
+    namespace = var.namespace
     name      = "metrics-server"
-    namespace = "kube-system"
 
     labels = {
       "kubernetes.io/name"            = "Metrics-server"
@@ -84,8 +87,8 @@ resource "kubernetes_service" "metrics" {
 
 resource "kubernetes_deployment" "metrics" {
   metadata {
+    namespace = var.namespace
     name      = "metrics-server"
-    namespace = "kube-system"
     labels    = local.metrics_labels
   }
 
@@ -130,7 +133,8 @@ resource "kubernetes_deployment" "metrics" {
 
 resource "kubernetes_api_service" "metrics_api" {
   metadata {
-    name = "v1beta1.metrics.k8s.io"
+    namespace = var.namespace
+    name      = "v1beta1.metrics.k8s.io"
   }
 
   spec {
@@ -149,7 +153,8 @@ resource "kubernetes_api_service" "metrics_api" {
 
 resource "kubernetes_cluster_role_binding" "metrics-api" {
   metadata {
-    name = "metrics-server:system:auth-delegator"
+    namespace = var.namespace
+    name      = "metrics-server:system:auth-delegator"
   }
 
   subject {
@@ -167,8 +172,8 @@ resource "kubernetes_cluster_role_binding" "metrics-api" {
 
 resource "kubernetes_role_binding" "metrics-api" {
   metadata {
+    namespace = var.namespace
     name      = "metrics-server-auth-reader"
-    namespace = "kube-system"
   }
 
   subject {

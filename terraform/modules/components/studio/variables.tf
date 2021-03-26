@@ -90,3 +90,7 @@ variable "training_credentials" {
     password        = null
   }
 }
+
+variable "namespace" {
+  description = "Kubernetes namespace where Studio will be installed."
+}

@@ -10,7 +10,8 @@ locals {
 
 resource "kubernetes_config_map" "drift_detection_trigger_env" {
   metadata {
-    name = "${local.drift_detection_trigger_name}-env"
+    namespace = var.namespace
+    name      = "${local.drift_detection_trigger_name}-env"
   }
 
   data = {
@@ -24,8 +25,9 @@ resource "kubernetes_config_map" "drift_detection_trigger_env" {
 
 resource "kubernetes_cron_job" "drift_detection_trigger" {
   metadata {
-    name   = local.drift_detection_trigger_name
-    labels = local.drift_detection_trigger_labels
+    namespace = var.namespace
+    name      = local.drift_detection_trigger_name
+    labels    = local.drift_detection_trigger_labels
   }
   spec {
     concurrency_policy            = "Forbid"
