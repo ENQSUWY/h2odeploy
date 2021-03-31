@@ -4,7 +4,7 @@
 # Required settings
 #-------------------
 
-domain = "40-71-236-86.h2o.sslip.io"
+domain = "52-190-40-228.h2o.sslip.io"
 
 deployer_image                = "h2oai/deployer:0.40.1"
 drift_detection_trigger_image = "h2oai/h2oai-drift-trigger:0.40.1"
@@ -46,4 +46,4 @@ protocol                 = "http"
 # that instead of traefik.  This is done by changing the ingress class to nginx
 # (or something else).  This overrides the annotation kubernetes.io/ingress.class.
 #
-# kubernetes_io_ingress_class = "nginx"
+kubernetes_io_ingress_class = "nginx"
