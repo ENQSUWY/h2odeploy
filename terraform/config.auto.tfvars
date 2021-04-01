@@ -35,7 +35,7 @@ driverless_count         = 1
 driverless_license_path  = "license.sig"
 platform_deployment_type = "subdomain"
 prefix                   = "mop"
-protocol                 = "http"
+protocol                 = "https"
 
 # You can manually specify the traefik service type if you have a reason to.
 # This is only useful if you are using subdomain DNS entries to reach the services.
