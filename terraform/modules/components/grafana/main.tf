@@ -229,5 +229,9 @@ resource "kubernetes_ingress" "grafana" {
         }
       }
     }
+
+    tls {
+      secret_name = "first-tls"
+      }
   }
 }

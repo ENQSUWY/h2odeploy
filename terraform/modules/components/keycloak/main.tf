@@ -209,5 +209,9 @@ resource "kubernetes_ingress" "keycloak" {
         }
       }
     }
+    
+    tls {
+      secret_name = "first-tls"
+      }
   }
 }

@@ -139,5 +139,8 @@ resource "kubernetes_ingress" "studio" {
         }
       }
     }
+    tls {
+      secret_name = "first-tls"
+      }
   }
 }

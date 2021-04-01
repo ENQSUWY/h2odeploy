@@ -218,5 +218,8 @@ resource "kubernetes_ingress" "ui" {
         }
       }
     }
+    tls {
+      secret_name = "first-tls"
+      }
   }
 }
