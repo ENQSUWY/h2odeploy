@@ -239,6 +239,9 @@ resource "kubernetes_ingress" "ambassador" {
   }
 
   spec {
+    tls {
+      secret_name = "first-tls"
+    }
     rule {
       host = local.model_host
 

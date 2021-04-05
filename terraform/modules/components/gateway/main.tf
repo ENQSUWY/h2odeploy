@@ -147,6 +147,9 @@ resource "kubernetes_ingress" "gateway" {
   }
 
   spec {
+    tls {
+      secret_name = "first-tls"
+    }
     rule {
       host = local.gateway_host
 

@@ -217,6 +217,9 @@ resource "kubernetes_ingress" "grafana" {
   }
 
   spec {
+    tls {
+      secret_name = "first-tls"
+    }
     rule {
       host = local.grafana_host
 
@@ -229,9 +232,5 @@ resource "kubernetes_ingress" "grafana" {
         }
       }
     }
-
-    tls {
-      secret_name = "first-tls"
-      }
   }
 }

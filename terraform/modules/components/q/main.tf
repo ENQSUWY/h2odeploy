@@ -208,6 +208,9 @@ resource "kubernetes_ingress" "q" {
   }
 
   spec {
+    tls {
+      secret_name = "first-tls"
+    }
     rule {
       host = local.q_host
 

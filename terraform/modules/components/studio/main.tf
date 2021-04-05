@@ -127,6 +127,9 @@ resource "kubernetes_ingress" "studio" {
   }
 
   spec {
+    tls {
+      secret_name = "first-tls"
+    }
     rule {
       host = local.studio_host
 
@@ -139,8 +142,5 @@ resource "kubernetes_ingress" "studio" {
         }
       }
     }
-    tls {
-      secret_name = "first-tls"
-      }
   }
 }

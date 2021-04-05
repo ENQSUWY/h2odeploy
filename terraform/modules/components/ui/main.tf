@@ -206,6 +206,9 @@ resource "kubernetes_ingress" "ui" {
   }
 
   spec {
+    tls {
+      secret_name = "first-tls"
+    }
     rule {
       host = local.ui_host
 
@@ -218,8 +221,5 @@ resource "kubernetes_ingress" "ui" {
         }
       }
     }
-    tls {
-      secret_name = "first-tls"
-      }
   }
 }
