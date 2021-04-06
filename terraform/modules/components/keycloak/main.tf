@@ -40,6 +40,7 @@ resource "kubernetes_config_map" "keycloak_env" {
   data = {
     KEYCLOAK_IMPORT       = "/tmp/import/import.json"
     KEYCLOAK_LOGLEVEL     = "debug"
+    PROXY_ADDRESS_FORWARDING = "true"
     KEYCLOAK_FRONTEND_URL = var.frontend_url
   }
 }
