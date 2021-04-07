@@ -199,7 +199,7 @@ resource "kubernetes_ingress" "keycloak" {
 
   spec {
     tls {
-      secret_name = "first-tls"
+      secret_name = "tls-secret"
     }
     rule {
       host = local.keycloak_host
